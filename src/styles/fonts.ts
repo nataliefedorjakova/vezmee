@@ -1,3 +1,5 @@
+import { moderateScale } from 'react-native-size-matters';
+
 export const fonts = {
 	family: {
 		regular: 'Poppins_400Regular',
@@ -5,17 +7,17 @@ export const fonts = {
 		bold: 'Poppins_700Bold',
 	},
 	size: {
-		xs: 12,
-		sm: 14,
-		md: 16,
-		lg: 20,
-		xl: 24,
-		xxl: 32,
+		xs: moderateScale(12),
+		sm: moderateScale(14),
+		md: moderateScale(16),
+		lg: moderateScale(20),
+		xl: moderateScale(24),
+		xxl: moderateScale(32),
 	},
 	lineHeight: {
-		sm: 18,
-		md: 22,
-		lg: 28,
-		xl: 34,
+		sm: moderateScale(18),
+		md: moderateScale(22),
+		lg: moderateScale(28),
+		xl: moderateScale(34),
 	},
 };

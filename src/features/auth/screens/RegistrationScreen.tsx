@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import CustomText from '@/components/CustomText';
 import { globalStyles } from '@/styles/globalStyles';
+import { colors } from '@/styles/colors';
 
 export default function RegistrationScreen({ navigation }: any) {
 	const [firstName, setFirstName] = useState('');
@@ -35,7 +36,9 @@ export default function RegistrationScreen({ navigation }: any) {
 
 	return (
 		<LinearGradient
-			colors={['#D7EFFD', '#FFFDFD']}
+			colors={
+				[...colors.light.backgroundGradient] as [string, string, ...string[]]
+			}
 			style={{ flex: 1 }}
 			start={{ x: 0, y: 0 }}
 			end={{ x: 0, y: 1 }}

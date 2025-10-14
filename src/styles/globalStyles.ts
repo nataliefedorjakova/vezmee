@@ -1,4 +1,6 @@
 import { StyleSheet } from 'react-native';
+import { colors } from '@/styles/colors';
+import { fonts } from '@/styles/fonts';
 
 export const globalStyles = StyleSheet.create({
 	container: {
@@ -15,7 +17,7 @@ export const globalStyles = StyleSheet.create({
 	logo: {
 		fontSize: 32,
 		fontWeight: 'bold',
-		color: '#F6951F',
+		color: colors.light.secondary,
 	},
 
 	header: {
@@ -27,7 +29,7 @@ export const globalStyles = StyleSheet.create({
 
 	subheader: {
 		textAlign: 'center',
-		color: '#161F1C',
+		color: colors.light.text,
 		marginBottom: 24,
 	},
 
@@ -46,7 +48,7 @@ export const globalStyles = StyleSheet.create({
 		flex: 1,
 		height: 48,
 		borderWidth: 1,
-		borderColor: '#ccc',
+		borderColor: colors.light.border,
 		borderRadius: 23,
 		paddingVertical: 16,
 		paddingHorizontal: 20,
@@ -56,7 +58,7 @@ export const globalStyles = StyleSheet.create({
 
 	signUpButton: {
 		marginTop: 16,
-		backgroundColor: '#F6951F',
+		backgroundColor: colors.light.secondary,
 		borderRadius: 23,
 		paddingVertical: 14,
 		alignItems: 'center',
@@ -72,8 +74,8 @@ export const globalStyles = StyleSheet.create({
 		flexDirection: 'row',
 		marginTop: 16,
 		borderRadius: 23,
-		borderColor: '#EEEEEE',
-		backgroundColor: '#F4F4F4',
+		borderColor: colors.light.border,
+		backgroundColor: colors.light.primary,
 		borderWidth: 1,
 		paddingVertical: 20,
 		gap: 10,
@@ -87,5 +89,5 @@ export const globalStyles = StyleSheet.create({
 		// alignItems: 'center',
 		// paddingVertical: 16,
 	},
-	link: { fontWeight: 'bold' },
+	link: { fontFamily: fonts.family.bold },
 });
