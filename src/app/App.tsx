@@ -10,6 +10,8 @@ import {
 	Poppins_700Bold,
 } from '@expo-google-fonts/poppins';
 
+import Logo from '../../assets/svg/logo-black.svg';
+
 import RegistrationScreen from '../features/auth/screens/RegistrationScreen';
 
 const Stack = createNativeStackNavigator();
@@ -24,6 +26,11 @@ const CustomText = (props: React.ComponentProps<typeof Text>) => (
 function HomeScreen({ navigation }: any) {
 	return (
 		<View style={styles.container}>
+			<Logo
+				width={120}
+				height={120}
+				fill='#F6951F'
+			/>
 			<CustomText>Open up.</CustomText>
 			<Button
 				title='Go to Registration'

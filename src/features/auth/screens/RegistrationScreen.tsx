@@ -13,8 +13,8 @@ import {
 import CustomText from '@/components/CustomText';
 import { globalStyles } from '@/styles/globalStyles';
 import { colors } from '@/styles/colors';
-import BlackLogo from '@/assets/svg/logo-black.svg';
-import OrangeLogo from '@/assets/svg/logo-orange.svg';
+import BlackLogo from '../../../../assets/svg/logo-black.svg';
+import OrangeLogo from '../../../../assets/svg/logo-orange.svg';
 
 export default function RegistrationScreen({ navigation }: any) {
 	const [firstName, setFirstName] = useState('');
@@ -56,12 +56,20 @@ export default function RegistrationScreen({ navigation }: any) {
 						end={{ x: 0, y: 1 }}
 					>
 						<View style={globalStyles.logoContainer}>
-							<CustomText style={globalStyles.logo}>vezmee</CustomText>
+							<BlackLogo
+								width={120}
+								height={120}
+								fill='#F6951F'
+							/>
 						</View>
 						<View>
 							<CustomText style={globalStyles.header}>
 								Welcome to{' '}
-								<CustomText style={globalStyles.logo}>vezmee</CustomText>
+								<OrangeLogo
+									width={100}
+									height={30}
+									fill='#F6951F'
+								/>
 							</CustomText>
 						</View>
 						<View>
