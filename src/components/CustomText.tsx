@@ -1,11 +1,42 @@
 import React from 'react';
-import { Text } from 'react-native';
+import { Text, TextProps, StyleSheet } from 'react-native';
+import { fonts } from '@/styles/fonts';
+import { colors } from '@/styles/colors';
+import { useColorScheme } from 'react-native';
 
-const CustomText = (props: React.ComponentProps<typeof Text>) => (
-	<Text
-		{...props}
-		style={[{ fontFamily: 'Poppins_400Regular' }, props.style]}
-	/>
-);
+interface CustomTextProps extends TextProps {
+	weight?: 'regular' | 'medium' | 'bold';
+}
+
+export const CustomText: React.FC<CustomTextProps> = ({
+	weight = 'regular',
+	style,
+	children,
+	...props
+}) => {
+	const theme = useColorScheme() ?? 'light';
+
+	return (
+		<Text
+			{...props}
+			style={[
+				styles.text,
+				{
+					fontFamily: fonts.family[weight],
+					color: colors[theme].text,
+				},
+				style,
+			]}
+		>
+			{children}
+		</Text>
+	);
+};
+
+const styles = StyleSheet.create({
+	text: {
+		fontSize: fonts.size.md,
+	},
+});
 
 export default CustomText;

@@ -7,6 +7,7 @@ export const globalStyles = StyleSheet.create({
 		flex: 1,
 		alignItems: 'stretch',
 		padding: 24,
+		backgroundColor: colors.light.background,
 	},
 
 	logoContainer: {
@@ -49,6 +50,7 @@ export const globalStyles = StyleSheet.create({
 		height: 48,
 		borderWidth: 1,
 		borderColor: colors.light.border,
+		backgroundColor: colors.light.inputForm,
 		borderRadius: 23,
 		paddingVertical: 16,
 		paddingHorizontal: 20,

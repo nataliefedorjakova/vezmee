@@ -8,6 +8,7 @@ export const colors = {
 		primary: '#F4F4F4', // Button background
 		secondary: '#F6951F', // Action buttons
 		border: '#EEEEEE',
+		inputForm: '#FFFFFF',
 		muted: '#D8D8D899', // Light text, possibly disabled buttons?
 		errorBorder: '#E33737',
 		errorContent: '#FFE8E8',
