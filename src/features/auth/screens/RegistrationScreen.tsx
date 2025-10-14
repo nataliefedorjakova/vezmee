@@ -1,7 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
 import {
-	StyleSheet,
 	TextInput,
 	View,
 	KeyboardAvoidingView,
@@ -183,5 +182,3 @@ export default function RegistrationScreen({ navigation }: any) {
 		</LinearGradient>
 	);
 }
-
-// const globalStyles = globalStylesheet.create({
