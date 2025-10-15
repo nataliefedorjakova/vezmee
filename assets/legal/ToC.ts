@@ -1,4 +1,4 @@
-export const termsText = `
+export const ToCText = `
 
 Last updated: October 2025
 
