@@ -13,6 +13,7 @@ import {
 import Logo from '../../assets/svg/logo-black.svg';
 
 import RegistrationScreen from '../features/auth/screens/RegistrationScreen';
+import OTPVerifyUI from '../features/auth/screens/OTPScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -35,6 +36,10 @@ function HomeScreen({ navigation }: any) {
 			<Button
 				title='Go to Registration'
 				onPress={() => navigation.navigate('Register')}
+			/>
+			<Button
+				title='Go to OTP'
+				onPress={() => navigation.navigate('OTP')}
 			/>
 			<StatusBar style='auto' />
 		</View>
@@ -66,6 +71,13 @@ export default function App(): React.JSX.Element {
 						headerTransparent: true,
 						headerTitle: '',
 						headerBackTitle: '',
+					}}
+				/>
+				<Stack.Screen
+					name='OTP'
+					component={OTPVerifyUI}
+					options={{
+						headerShown: false, // hide default header, since your OTP screen has its own back icon
 					}}
 				/>
 			</Stack.Navigator>
