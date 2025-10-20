@@ -1,5 +1,4 @@
-// OTPVerifyUI.tsx
-import React, { useRef } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import {
 	View,
 	Text,
@@ -14,79 +13,133 @@ import { Ionicons } from '@expo/vector-icons';
 import CustomText from '@/components/CustomText';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { colors } from '@/styles/colors';
+import { useNavigation } from '@react-navigation/native';
+
+const OTP_LENGTH = 4;
 
 export default function OTPVerify() {
+	const navigation = useNavigation();
+	const [otp, setOtp] = useState<string[]>(Array(OTP_LENGTH).fill(''));
 	const inputs = useRef<Array<TextInput | null>>([]);
 
+	const code = useMemo(() => otp.join(''), [otp]);
+	const isComplete = code.length === OTP_LENGTH;
+
 	const handleChange = (text: string, index: number) => {
-		if (text) {
-			if (index < inputs.current.length - 1) {
-				inputs.current[index + 1]?.focus();
-			} else {
-				Keyboard.dismiss();
+		// Allow pasting an entire code
+		if (text.length > 1) {
+			const chars = text.replace(/\D/g, '').slice(0, OTP_LENGTH).split('');
+			const next = [...otp];
+
+			for (let i = 0; i < chars.length && index + i < OTP_LENGTH; i++) {
+				next[index + i] = chars[i];
 			}
+
+			setOtp(next);
+			const focusIndex = Math.min(index + chars.length - 1, OTP_LENGTH - 1);
+			inputs.current[focusIndex]?.focus();
+			return;
+		}
+
+		const next = [...otp];
+		next[index] = text.replace(/\D/g, '').slice(-1);
+		setOtp(next);
+
+		if (text && index < OTP_LENGTH - 1) {
+			inputs.current[index + 1]?.focus();
 		}
 	};
 
+	const handleKeyPress = (e: any, index: number) => {
+		if (e.nativeEvent.key === 'Backspace' && !otp[index] && index > 0) {
+			inputs.current[index - 1]?.focus();
+		}
+	};
+
+	const submit = () => {
+		Keyboard.dismiss();
+		// TODO: verify OTP code with backend
+		console.log('Submitting OTP:', code);
+	};
+
+	const resend = () => {
+		console.log('Resend code');
+		// TODO: trigger resend request
+	};
+
 	return (
-		<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-			<SafeAreaView style={styles.safe}>
-				<LinearGradient
-					colors={
-						[...colors.light.backgroundGradient] as [
-							string,
-							string,
-							...string[],
-						]
-					}
-					start={{ x: 0.5, y: 0 }}
-					end={{ x: 0.5, y: 1 }}
-					style={styles.header}
+		<SafeAreaView style={styles.safe}>
+			<LinearGradient
+				colors={['#DDF1FF', '#FFFFFF']}
+				start={{ x: 0.5, y: 0 }}
+				end={{ x: 0.5, y: 1 }}
+				style={styles.header}
+			>
+				<Pressable
+					accessibilityRole='button'
+					onPress={() => navigation?.goBack?.()}
+					style={styles.backBtn}
 				>
-					<Pressable style={styles.backBtn}>
-						<Ionicons
-							name='chevron-back'
-							size={22}
-							color='#111827'
+					<Ionicons
+						name='chevron-back'
+						size={22}
+						color='#111827'
+					/>
+				</Pressable>
+
+				<CustomText style={styles.title}>Enter OTP Code</CustomText>
+				<CustomText style={styles.subtitle}>
+					OTP code has been sent to your email address.
+				</CustomText>
+			</LinearGradient>
+
+			<View style={styles.content}>
+				<View style={styles.otpRow}>
+					{Array.from({ length: OTP_LENGTH }).map((_, i) => (
+						<TextInput
+							key={i}
+							ref={(el) => {
+								inputs.current[i] = el;
+							}}
+							value={otp[i]}
+							onChangeText={(t) => handleChange(t, i)}
+							onKeyPress={(e) => handleKeyPress(e, i)}
+							keyboardType='number-pad'
+							textContentType='oneTimeCode'
+							maxLength={OTP_LENGTH}
+							autoCapitalize='none'
+							autoCorrect={false}
+							returnKeyType='next'
+							style={[styles.otpBox, otp[i] ? styles.otpBoxFilled : null]}
 						/>
-					</Pressable>
+					))}
+				</View>
 
-					<CustomText style={styles.title}>Enter OTP Code</CustomText>
-					<CustomText style={styles.subtitle}>
-						OTP code has been sent to your email address.
+				<CustomText style={styles.resendText}>
+					Didn’t receive your code?
+					<CustomText
+						style={styles.resendLink}
+						onPress={resend}
+					>
+						{' '}
+						Resend
 					</CustomText>
-				</LinearGradient>
+				</CustomText>
+			</View>
 
-				<View style={styles.content}>
-					<View style={styles.otpRow}>
-						{Array.from({ length: 4 }).map((_, i) => (
-							<TextInput
-								key={i}
-								ref={(el: TextInput | null) => {
-									inputs.current[i] = el;
-								}}
-								style={styles.otpBox}
-								keyboardType='number-pad'
-								maxLength={1}
-								onChangeText={(text) => handleChange(text, i)}
-								textAlign='center'
-							/>
-						))}
-					</View>
-
-					<Text style={styles.resendText}>
-						Didn’t receive your code?
-						<Text style={styles.resendLink}> Resend</Text>
-					</Text>
-				</View>
-
-				<View style={styles.footer}>
-					<Pressable style={styles.submitBtn}>
-						<CustomText style={styles.submitLabel}>Submit</CustomText>
-					</Pressable>
-				</View>
-			</SafeAreaView>
-		</TouchableWithoutFeedback>
+			<View style={styles.footer}>
+				<Pressable
+					onPress={submit}
+					disabled={!isComplete}
+					style={({ pressed }) => [
+						styles.submitBtn,
+						(!isComplete || pressed) && { opacity: 0.8 },
+					]}
+				>
+					<Text style={styles.submitLabel}>Submit</Text>
+				</Pressable>
+			</View>
+		</SafeAreaView>
 	);
 }
 
@@ -142,6 +195,11 @@ const styles = StyleSheet.create({
 		fontWeight: '600',
 		color: '#111827',
 	},
+	otpBoxFilled: {
+		borderColor: '#F59E0B',
+		backgroundColor: '#FFFBEB',
+		color: '#111827',
+	},
 
 	resendText: {
 		marginTop: 20,
@@ -150,7 +208,7 @@ const styles = StyleSheet.create({
 	},
 	resendLink: {
 		color: '#F59E0B',
-		fontWeight: '600',
+		// fontWeight: '600',
 	},
 
 	footer: {
